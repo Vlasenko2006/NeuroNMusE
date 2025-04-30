@@ -29,7 +29,8 @@ class AudioDataset(Dataset):
 class AttentionModel(nn.Module):
     def __init__(self, input_dim):
         super(AttentionModel, self).__init__()
-        self.lstm = nn.LSTM(input_dim, 128, num_layers=2, batch_first=True, bidirectional=True)
+        self.reduce_dim = nn.Linear(input_dim, 128)
+        self.lstm = nn.LSTM(128, 128, num_layers=2, batch_first=True, bidirectional=True)
         self.attention = nn.Sequential(
             nn.Linear(128 * 2, 64),  # Reduce dimensionality
             nn.ReLU(),
@@ -46,7 +47,8 @@ class AttentionModel(nn.Module):
         )
 
     def forward(self, x):
-        lstm_out, _ = self.lstm(x)
+        x0 = self.reduce_dim(x) 
+        lstm_out, _ = self.lstm(x0)
         attention_weights = torch.softmax(self.attention(lstm_out), dim=1)
         context_vector = torch.sum(attention_weights * lstm_out, dim=1)
         output = self.fc(context_vector)
