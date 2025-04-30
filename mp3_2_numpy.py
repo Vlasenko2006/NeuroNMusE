@@ -17,7 +17,7 @@ os.environ["PATH"] += os.pathsep + "/usr/local/bin"
 AudioSegment.converter = "/usr/local/bin/ffmpeg"
 AudioSegment.ffprobe = "/usr/local/bin/ffprobe"
 
-def mp3_to_numpy(mp3_file, target_sr=16000):
+def mp3_to_numpy(mp3_file, target_sr=12000):
     """
     Converts an MP3 file to a NumPy array.
     Parameters:
@@ -61,6 +61,8 @@ if __name__ == "__main__":
     
     # Step 1: Convert MP3 to NumPy array
     waveform, sample_rate = mp3_to_numpy(example_mp3)
+
+    waveform = waveform.astype(np.float32)
     
     # Step 2: Convert NumPy array back to MP3
     numpy_to_mp3(waveform, sample_rate, output_mp3_file="Desperado_converted.mp3")
