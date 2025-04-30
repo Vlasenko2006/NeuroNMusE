@@ -12,7 +12,6 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
-#from mp3_2_numpy import numpy_to_mp3  # Import the function for saving MP3 files
 
 # Dataset class
 class AudioDataset(Dataset):
@@ -26,7 +25,7 @@ class AudioDataset(Dataset):
         input_chunk, target_chunk = self.data[idx]
         return torch.tensor(input_chunk, dtype=torch.float32), torch.tensor(target_chunk, dtype=torch.float32)
 
-# Attention-based neural network
+# Attention-based neural network with Dropout
 class AttentionModel(nn.Module):
     def __init__(self, input_dim):
         super(AttentionModel, self).__init__()
@@ -39,7 +38,11 @@ class AttentionModel(nn.Module):
         self.fc = nn.Sequential(
             nn.Linear(128 * 2, 256),
             nn.ReLU(),
-            nn.Linear(256, input_dim * 2)  # Output for both channels
+            nn.Dropout(p=0.5),
+            nn.Linear(256, 256),      # Additional layer
+            nn.ReLU(),
+            nn.Dropout(p=0.5),       # Additional dropout
+            nn.Linear(256, input_dim * 2)  # Output layer
         )
 
     def forward(self, x):
@@ -126,7 +129,7 @@ if __name__ == "__main__":
     # Constants
     dataset_folder = "../dataset"
     batch_size = 16
-    epochs = 300
+    epochs = 3000
     sample_rate = 16000
     learning_rate = 0.0001
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
