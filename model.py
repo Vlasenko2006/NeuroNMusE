@@ -30,16 +30,24 @@ class AudioDataset(Dataset):
 class AttentionModel(nn.Module):
     def __init__(self, input_dim):
         super(AttentionModel, self).__init__()
-        self.lstm = nn.LSTM(input_dim, 128, batch_first=True, bidirectional=True)
-        self.attention = nn.Linear(128 * 2, 1)  # Attention layer
-        self.fc = nn.Linear(128 * 2, input_dim * 2)  # Output for both channels
+        self.lstm = nn.LSTM(input_dim, 128, num_layers=2, batch_first=True, bidirectional=True)
+        self.attention = nn.Sequential(
+            nn.Linear(128 * 2, 64),  # Reduce dimensionality
+            nn.ReLU(),
+            nn.Linear(64, 1)         # Compute attention weights
+            )
+        self.fc = nn.Sequential(
+            nn.Linear(128 * 2, 256),
+            nn.ReLU(),
+            nn.Linear(256, input_dim * 2)  # Output for both channels
+        )
 
     def forward(self, x):
         lstm_out, _ = self.lstm(x)
         attention_weights = torch.softmax(self.attention(lstm_out), dim=1)
         context_vector = torch.sum(attention_weights * lstm_out, dim=1)
         output = self.fc(context_vector)
-        return output.view(x.size(0), 2, -1)  # Reshape to [batch_size, 2, samples]
+        return output.view(x.size(0), 2, -1) + x  # Add residual connection
 
 # Training and validation
 def train_and_validate(model, train_loader, val_loader, epochs, criterion, optimizer, device, sample_rate):
