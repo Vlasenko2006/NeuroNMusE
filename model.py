@@ -124,11 +124,11 @@ def save_checkpoint(model, optimizer, epoch, checkpoint_folder):
 # Main function
 if __name__ == "__main__":
     # Constants
-    dataset_folder = "dataset"
+    dataset_folder = "../dataset"
     batch_size = 16
-    epochs = 30
+    epochs = 300
     sample_rate = 16000
-    learning_rate = 0.001
+    learning_rate = 0.0001
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     checkpoint_folder = "checkpoints"
     music_out_folder = "music_out"

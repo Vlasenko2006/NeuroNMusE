@@ -1,0 +1,960 @@
+Epoch 1/300
+Training Loss: 0.0951
+Validation Loss: 0.1025
+Epoch 2/300
+Training Loss: 0.0946
+Validation Loss: 0.1021
+Epoch 3/300
+Training Loss: 0.0945
+Validation Loss: 0.1020
+Epoch 4/300
+Training Loss: 0.0943
+Validation Loss: 0.1020
+Epoch 5/300
+Training Loss: 0.0938
+Validation Loss: 0.1020
+Epoch 6/300
+Training Loss: 0.0940
+Validation Loss: 0.1020
+Epoch 7/300
+Training Loss: 0.0941
+Validation Loss: 0.1020
+Epoch 8/300
+Training Loss: 0.0943
+Validation Loss: 0.1021
+Epoch 9/300
+Training Loss: 0.0938
+Validation Loss: 0.1021
+Epoch 10/300
+Training Loss: 0.0937
+Validation Loss: 0.1021
+Checkpoint saved: checkpoints/model_epoch_10.pt
+Saved input, output, and target as NumPy files for epoch 10.
+Epoch 11/300
+Training Loss: 0.0936
+Validation Loss: 0.1021
+Epoch 12/300
+Training Loss: 0.0935
+Validation Loss: 0.1022
+Epoch 13/300
+Training Loss: 0.0932
+Validation Loss: 0.1022
+Epoch 14/300
+Training Loss: 0.0927
+Validation Loss: 0.1023
+Epoch 15/300
+Training Loss: 0.0924
+Validation Loss: 0.1024
+Epoch 16/300
+Training Loss: 0.0921
+Validation Loss: 0.1024
+Epoch 17/300
+Training Loss: 0.0917
+Validation Loss: 0.1025
+Epoch 18/300
+Training Loss: 0.0914
+Validation Loss: 0.1026
+Epoch 19/300
+Training Loss: 0.0909
+Validation Loss: 0.1027
+Epoch 20/300
+Training Loss: 0.0905
+Validation Loss: 0.1027
+Checkpoint saved: checkpoints/model_epoch_20.pt
+Saved input, output, and target as NumPy files for epoch 20.
+Epoch 21/300
+Training Loss: 0.0900
+Validation Loss: 0.1028
+Epoch 22/300
+Training Loss: 0.0896
+Validation Loss: 0.1029
+Epoch 23/300
+Training Loss: 0.0895
+Validation Loss: 0.1030
+Epoch 24/300
+Training Loss: 0.0886
+Validation Loss: 0.1030
+Epoch 25/300
+Training Loss: 0.0882
+Validation Loss: 0.1031
+Epoch 26/300
+Training Loss: 0.0880
+Validation Loss: 0.1032
+Epoch 27/300
+Training Loss: 0.0878
+Validation Loss: 0.1032
+Epoch 28/300
+Training Loss: 0.0874
+Validation Loss: 0.1033
+Epoch 29/300
+Training Loss: 0.0874
+Validation Loss: 0.1034
+Epoch 30/300
+Training Loss: 0.0865
+Validation Loss: 0.1034
+Checkpoint saved: checkpoints/model_epoch_30.pt
+Saved input, output, and target as NumPy files for epoch 30.
+Epoch 31/300
+Training Loss: 0.0861
+Validation Loss: 0.1035
+Epoch 32/300
+Training Loss: 0.0860
+Validation Loss: 0.1036
+Epoch 33/300
+Training Loss: 0.0859
+Validation Loss: 0.1036
+Epoch 34/300
+Training Loss: 0.0853
+Validation Loss: 0.1037
+Epoch 35/300
+Training Loss: 0.0851
+Validation Loss: 0.1037
+Epoch 36/300
+Training Loss: 0.0847
+Validation Loss: 0.1038
+Epoch 37/300
+Training Loss: 0.0849
+Validation Loss: 0.1039
+Epoch 38/300
+Training Loss: 0.0844
+Validation Loss: 0.1040
+Epoch 39/300
+Training Loss: 0.0840
+Validation Loss: 0.1040
+Epoch 40/300
+Training Loss: 0.0838
+Validation Loss: 0.1041
+Checkpoint saved: checkpoints/model_epoch_40.pt
+Saved input, output, and target as NumPy files for epoch 40.
+Epoch 41/300
+Training Loss: 0.0836
+Validation Loss: 0.1042
+Epoch 42/300
+Training Loss: 0.0831
+Validation Loss: 0.1043
+Epoch 43/300
+Training Loss: 0.0831
+Validation Loss: 0.1043
+Epoch 44/300
+Training Loss: 0.0826
+Validation Loss: 0.1044
+Epoch 45/300
+Training Loss: 0.0827
+Validation Loss: 0.1045
+Epoch 46/300
+Training Loss: 0.0826
+Validation Loss: 0.1046
+Epoch 47/300
+Training Loss: 0.0821
+Validation Loss: 0.1046
+Epoch 48/300
+Training Loss: 0.0821
+Validation Loss: 0.1047
+Epoch 49/300
+Training Loss: 0.0818
+Validation Loss: 0.1048
+Epoch 50/300
+Training Loss: 0.0813
+Validation Loss: 0.1048
+Checkpoint saved: checkpoints/model_epoch_50.pt
+Saved input, output, and target as NumPy files for epoch 50.
+Epoch 51/300
+Training Loss: 0.0814
+Validation Loss: 0.1049
+Epoch 52/300
+Training Loss: 0.0813
+Validation Loss: 0.1050
+Epoch 53/300
+Training Loss: 0.0808
+Validation Loss: 0.1050
+Epoch 54/300
+Training Loss: 0.0808
+Validation Loss: 0.1051
+Epoch 55/300
+Training Loss: 0.0805
+Validation Loss: 0.1052
+Epoch 56/300
+Training Loss: 0.0803
+Validation Loss: 0.1053
+Epoch 57/300
+Training Loss: 0.0801
+Validation Loss: 0.1053
+Epoch 58/300
+Training Loss: 0.0800
+Validation Loss: 0.1054
+Epoch 59/300
+Training Loss: 0.0798
+Validation Loss: 0.1055
+Epoch 60/300
+Training Loss: 0.0797
+Validation Loss: 0.1055
+Checkpoint saved: checkpoints/model_epoch_60.pt
+Saved input, output, and target as NumPy files for epoch 60.
+Epoch 61/300
+Training Loss: 0.0794
+Validation Loss: 0.1056
+Epoch 62/300
+Training Loss: 0.0792
+Validation Loss: 0.1057
+Epoch 63/300
+Training Loss: 0.0790
+Validation Loss: 0.1058
+Epoch 64/300
+Training Loss: 0.0790
+Validation Loss: 0.1058
+Epoch 65/300
+Training Loss: 0.0786
+Validation Loss: 0.1059
+Epoch 66/300
+Training Loss: 0.0785
+Validation Loss: 0.1060
+Epoch 67/300
+Training Loss: 0.0785
+Validation Loss: 0.1060
+Epoch 68/300
+Training Loss: 0.0783
+Validation Loss: 0.1061
+Epoch 69/300
+Training Loss: 0.0781
+Validation Loss: 0.1062
+Epoch 70/300
+Training Loss: 0.0779
+Validation Loss: 0.1063
+Checkpoint saved: checkpoints/model_epoch_70.pt
+Saved input, output, and target as NumPy files for epoch 70.
+Epoch 71/300
+Training Loss: 0.0778
+Validation Loss: 0.1064
+Epoch 72/300
+Training Loss: 0.0776
+Validation Loss: 0.1064
+Epoch 73/300
+Training Loss: 0.0774
+Validation Loss: 0.1065
+Epoch 74/300
+Training Loss: 0.0772
+Validation Loss: 0.1066
+Epoch 75/300
+Training Loss: 0.0773
+Validation Loss: 0.1066
+Epoch 76/300
+Training Loss: 0.0770
+Validation Loss: 0.1067
+Epoch 77/300
+Training Loss: 0.0768
+Validation Loss: 0.1068
+Epoch 78/300
+Training Loss: 0.0768
+Validation Loss: 0.1068
+Epoch 79/300
+Training Loss: 0.0769
+Validation Loss: 0.1069
+Epoch 80/300
+Training Loss: 0.0767
+Validation Loss: 0.1069
+Checkpoint saved: checkpoints/model_epoch_80.pt
+Saved input, output, and target as NumPy files for epoch 80.
+Epoch 81/300
+Training Loss: 0.0764
+Validation Loss: 0.1070
+Epoch 82/300
+Training Loss: 0.0762
+Validation Loss: 0.1071
+Epoch 83/300
+Training Loss: 0.0761
+Validation Loss: 0.1072
+Epoch 84/300
+Training Loss: 0.0759
+Validation Loss: 0.1073
+Epoch 85/300
+Training Loss: 0.0759
+Validation Loss: 0.1073
+Epoch 86/300
+Training Loss: 0.0756
+Validation Loss: 0.1074
+Epoch 87/300
+Training Loss: 0.0755
+Validation Loss: 0.1074
+Epoch 88/300
+Training Loss: 0.0755
+Validation Loss: 0.1075
+Epoch 89/300
+Training Loss: 0.0754
+Validation Loss: 0.1075
+Epoch 90/300
+Training Loss: 0.0752
+Validation Loss: 0.1075
+Checkpoint saved: checkpoints/model_epoch_90.pt
+Saved input, output, and target as NumPy files for epoch 90.
+Epoch 91/300
+Training Loss: 0.0752
+Validation Loss: 0.1076
+Epoch 92/300
+Training Loss: 0.0750
+Validation Loss: 0.1077
+Epoch 93/300
+Training Loss: 0.0750
+Validation Loss: 0.1078
+Epoch 94/300
+Training Loss: 0.0748
+Validation Loss: 0.1079
+Epoch 95/300
+Training Loss: 0.0746
+Validation Loss: 0.1079
+Epoch 96/300
+Training Loss: 0.0748
+Validation Loss: 0.1080
+Epoch 97/300
+Training Loss: 0.0746
+Validation Loss: 0.1080
+Epoch 98/300
+Training Loss: 0.0747
+Validation Loss: 0.1081
+Epoch 99/300
+Training Loss: 0.0743
+Validation Loss: 0.1082
+Epoch 100/300
+Training Loss: 0.0743
+Validation Loss: 0.1083
+Checkpoint saved: checkpoints/model_epoch_100.pt
+Saved input, output, and target as NumPy files for epoch 100.
+Epoch 101/300
+Training Loss: 0.0743
+Validation Loss: 0.1083
+Epoch 102/300
+Training Loss: 0.0741
+Validation Loss: 0.1084
+Epoch 103/300
+Training Loss: 0.0739
+Validation Loss: 0.1085
+Epoch 104/300
+Training Loss: 0.0739
+Validation Loss: 0.1085
+Epoch 105/300
+Training Loss: 0.0738
+Validation Loss: 0.1086
+Epoch 106/300
+Training Loss: 0.0738
+Validation Loss: 0.1086
+Epoch 107/300
+Training Loss: 0.0737
+Validation Loss: 0.1087
+Epoch 108/300
+Training Loss: 0.0736
+Validation Loss: 0.1088
+Epoch 109/300
+Training Loss: 0.0733
+Validation Loss: 0.1089
+Epoch 110/300
+Training Loss: 0.0735
+Validation Loss: 0.1089
+Checkpoint saved: checkpoints/model_epoch_110.pt
+Saved input, output, and target as NumPy files for epoch 110.
+Epoch 111/300
+Training Loss: 0.0733
+Validation Loss: 0.1090
+Epoch 112/300
+Training Loss: 0.0734
+Validation Loss: 0.1091
+Epoch 113/300
+Training Loss: 0.0732
+Validation Loss: 0.1091
+Epoch 114/300
+Training Loss: 0.0731
+Validation Loss: 0.1092
+Epoch 115/300
+Training Loss: 0.0729
+Validation Loss: 0.1092
+Epoch 116/300
+Training Loss: 0.0729
+Validation Loss: 0.1093
+Epoch 117/300
+Training Loss: 0.0730
+Validation Loss: 0.1093
+Epoch 118/300
+Training Loss: 0.0729
+Validation Loss: 0.1093
+Epoch 119/300
+Training Loss: 0.0727
+Validation Loss: 0.1094
+Epoch 120/300
+Training Loss: 0.0726
+Validation Loss: 0.1094
+Checkpoint saved: checkpoints/model_epoch_120.pt
+Saved input, output, and target as NumPy files for epoch 120.
+Epoch 121/300
+Training Loss: 0.0725
+Validation Loss: 0.1095
+Epoch 122/300
+Training Loss: 0.0722
+Validation Loss: 0.1096
+Epoch 123/300
+Training Loss: 0.0725
+Validation Loss: 0.1096
+Epoch 124/300
+Training Loss: 0.0723
+Validation Loss: 0.1096
+Epoch 125/300
+Training Loss: 0.0723
+Validation Loss: 0.1097
+Epoch 126/300
+Training Loss: 0.0719
+Validation Loss: 0.1098
+Epoch 127/300
+Training Loss: 0.0722
+Validation Loss: 0.1099
+Epoch 128/300
+Training Loss: 0.0720
+Validation Loss: 0.1099
+Epoch 129/300
+Training Loss: 0.0722
+Validation Loss: 0.1100
+Epoch 130/300
+Training Loss: 0.0719
+Validation Loss: 0.1100
+Checkpoint saved: checkpoints/model_epoch_130.pt
+Saved input, output, and target as NumPy files for epoch 130.
+Epoch 131/300
+Training Loss: 0.0719
+Validation Loss: 0.1100
+Epoch 132/300
+Training Loss: 0.0720
+Validation Loss: 0.1100
+Epoch 133/300
+Training Loss: 0.0718
+Validation Loss: 0.1101
+Epoch 134/300
+Training Loss: 0.0720
+Validation Loss: 0.1101
+Epoch 135/300
+Training Loss: 0.0718
+Validation Loss: 0.1102
+Epoch 136/300
+Training Loss: 0.0718
+Validation Loss: 0.1102
+Epoch 137/300
+Training Loss: 0.0716
+Validation Loss: 0.1103
+Epoch 138/300
+Training Loss: 0.0716
+Validation Loss: 0.1104
+Epoch 139/300
+Training Loss: 0.0715
+Validation Loss: 0.1104
+Epoch 140/300
+Training Loss: 0.0715
+Validation Loss: 0.1104
+Checkpoint saved: checkpoints/model_epoch_140.pt
+Saved input, output, and target as NumPy files for epoch 140.
+Epoch 141/300
+Training Loss: 0.0716
+Validation Loss: 0.1104
+Epoch 142/300
+Training Loss: 0.0715
+Validation Loss: 0.1105
+Epoch 143/300
+Training Loss: 0.0711
+Validation Loss: 0.1105
+Epoch 144/300
+Training Loss: 0.0714
+Validation Loss: 0.1105
+Epoch 145/300
+Training Loss: 0.0711
+Validation Loss: 0.1105
+Epoch 146/300
+Training Loss: 0.0714
+Validation Loss: 0.1106
+Epoch 147/300
+Training Loss: 0.0712
+Validation Loss: 0.1106
+Epoch 148/300
+Training Loss: 0.0711
+Validation Loss: 0.1107
+Epoch 149/300
+Training Loss: 0.0709
+Validation Loss: 0.1107
+Epoch 150/300
+Training Loss: 0.0712
+Validation Loss: 0.1107
+Checkpoint saved: checkpoints/model_epoch_150.pt
+Saved input, output, and target as NumPy files for epoch 150.
+Epoch 151/300
+Training Loss: 0.0710
+Validation Loss: 0.1108
+Epoch 152/300
+Training Loss: 0.0711
+Validation Loss: 0.1109
+Epoch 153/300
+Training Loss: 0.0711
+Validation Loss: 0.1109
+Epoch 154/300
+Training Loss: 0.0709
+Validation Loss: 0.1109
+Epoch 155/300
+Training Loss: 0.0708
+Validation Loss: 0.1109
+Epoch 156/300
+Training Loss: 0.0709
+Validation Loss: 0.1109
+Epoch 157/300
+Training Loss: 0.0709
+Validation Loss: 0.1111
+Epoch 158/300
+Training Loss: 0.0708
+Validation Loss: 0.1110
+Epoch 159/300
+Training Loss: 0.0708
+Validation Loss: 0.1110
+Epoch 160/300
+Training Loss: 0.0707
+Validation Loss: 0.1111
+Checkpoint saved: checkpoints/model_epoch_160.pt
+Saved input, output, and target as NumPy files for epoch 160.
+Epoch 161/300
+Training Loss: 0.0708
+Validation Loss: 0.1111
+Epoch 162/300
+Training Loss: 0.0705
+Validation Loss: 0.1112
+Epoch 163/300
+Training Loss: 0.0706
+Validation Loss: 0.1112
+Epoch 164/300
+Training Loss: 0.0707
+Validation Loss: 0.1113
+Epoch 165/300
+Training Loss: 0.0704
+Validation Loss: 0.1113
+Epoch 166/300
+Training Loss: 0.0706
+Validation Loss: 0.1113
+Epoch 167/300
+Training Loss: 0.0704
+Validation Loss: 0.1113
+Epoch 168/300
+Training Loss: 0.0705
+Validation Loss: 0.1113
+Epoch 169/300
+Training Loss: 0.0704
+Validation Loss: 0.1114
+Epoch 170/300
+Training Loss: 0.0703
+Validation Loss: 0.1114
+Checkpoint saved: checkpoints/model_epoch_170.pt
+Saved input, output, and target as NumPy files for epoch 170.
+Epoch 171/300
+Training Loss: 0.0703
+Validation Loss: 0.1114
+Epoch 172/300
+Training Loss: 0.0702
+Validation Loss: 0.1114
+Epoch 173/300
+Training Loss: 0.0702
+Validation Loss: 0.1115
+Epoch 174/300
+Training Loss: 0.0701
+Validation Loss: 0.1115
+Epoch 175/300
+Training Loss: 0.0703
+Validation Loss: 0.1115
+Epoch 176/300
+Training Loss: 0.0705
+Validation Loss: 0.1115
+Epoch 177/300
+Training Loss: 0.0702
+Validation Loss: 0.1115
+Epoch 178/300
+Training Loss: 0.0702
+Validation Loss: 0.1115
+Epoch 179/300
+Training Loss: 0.0701
+Validation Loss: 0.1115
+Epoch 180/300
+Training Loss: 0.0702
+Validation Loss: 0.1116
+Checkpoint saved: checkpoints/model_epoch_180.pt
+Saved input, output, and target as NumPy files for epoch 180.
+Epoch 181/300
+Training Loss: 0.0700
+Validation Loss: 0.1116
+Epoch 182/300
+Training Loss: 0.0701
+Validation Loss: 0.1116
+Epoch 183/300
+Training Loss: 0.0700
+Validation Loss: 0.1117
+Epoch 184/300
+Training Loss: 0.0700
+Validation Loss: 0.1117
+Epoch 185/300
+Training Loss: 0.0701
+Validation Loss: 0.1117
+Epoch 186/300
+Training Loss: 0.0702
+Validation Loss: 0.1117
+Epoch 187/300
+Training Loss: 0.0701
+Validation Loss: 0.1117
+Epoch 188/300
+Training Loss: 0.0701
+Validation Loss: 0.1118
+Epoch 189/300
+Training Loss: 0.0700
+Validation Loss: 0.1118
+Epoch 190/300
+Training Loss: 0.0700
+Validation Loss: 0.1119
+Checkpoint saved: checkpoints/model_epoch_190.pt
+Saved input, output, and target as NumPy files for epoch 190.
+Epoch 191/300
+Training Loss: 0.0700
+Validation Loss: 0.1119
+Epoch 192/300
+Training Loss: 0.0699
+Validation Loss: 0.1119
+Epoch 193/300
+Training Loss: 0.0699
+Validation Loss: 0.1119
+Epoch 194/300
+Training Loss: 0.0699
+Validation Loss: 0.1120
+Epoch 195/300
+Training Loss: 0.0700
+Validation Loss: 0.1120
+Epoch 196/300
+Training Loss: 0.0698
+Validation Loss: 0.1120
+Epoch 197/300
+Training Loss: 0.0698
+Validation Loss: 0.1120
+Epoch 198/300
+Training Loss: 0.0697
+Validation Loss: 0.1120
+Epoch 199/300
+Training Loss: 0.0699
+Validation Loss: 0.1120
+Epoch 200/300
+Training Loss: 0.0697
+Validation Loss: 0.1121
+Checkpoint saved: checkpoints/model_epoch_200.pt
+Saved input, output, and target as NumPy files for epoch 200.
+Epoch 201/300
+Training Loss: 0.0697
+Validation Loss: 0.1121
+Epoch 202/300
+Training Loss: 0.0697
+Validation Loss: 0.1122
+Epoch 203/300
+Training Loss: 0.0696
+Validation Loss: 0.1121
+Epoch 204/300
+Training Loss: 0.0698
+Validation Loss: 0.1122
+Epoch 205/300
+Training Loss: 0.0694
+Validation Loss: 0.1122
+Epoch 206/300
+Training Loss: 0.0697
+Validation Loss: 0.1122
+Epoch 207/300
+Training Loss: 0.0696
+Validation Loss: 0.1121
+Epoch 208/300
+Training Loss: 0.0696
+Validation Loss: 0.1122
+Epoch 209/300
+Training Loss: 0.0695
+Validation Loss: 0.1122
+Epoch 210/300
+Training Loss: 0.0696
+Validation Loss: 0.1122
+Checkpoint saved: checkpoints/model_epoch_210.pt
+Saved input, output, and target as NumPy files for epoch 210.
+Epoch 211/300
+Training Loss: 0.0695
+Validation Loss: 0.1122
+Epoch 212/300
+Training Loss: 0.0696
+Validation Loss: 0.1122
+Epoch 213/300
+Training Loss: 0.0697
+Validation Loss: 0.1122
+Epoch 214/300
+Training Loss: 0.0695
+Validation Loss: 0.1122
+Epoch 215/300
+Training Loss: 0.0694
+Validation Loss: 0.1122
+Epoch 216/300
+Training Loss: 0.0694
+Validation Loss: 0.1123
+Epoch 217/300
+Training Loss: 0.0694
+Validation Loss: 0.1122
+Epoch 218/300
+Training Loss: 0.0695
+Validation Loss: 0.1123
+Epoch 219/300
+Training Loss: 0.0693
+Validation Loss: 0.1123
+Epoch 220/300
+Training Loss: 0.0695
+Validation Loss: 0.1124
+Checkpoint saved: checkpoints/model_epoch_220.pt
+Saved input, output, and target as NumPy files for epoch 220.
+Epoch 221/300
+Training Loss: 0.0696
+Validation Loss: 0.1125
+Epoch 222/300
+Training Loss: 0.0695
+Validation Loss: 0.1125
+Epoch 223/300
+Training Loss: 0.0694
+Validation Loss: 0.1125
+Epoch 224/300
+Training Loss: 0.0695
+Validation Loss: 0.1125
+Epoch 225/300
+Training Loss: 0.0691
+Validation Loss: 0.1125
+Epoch 226/300
+Training Loss: 0.0695
+Validation Loss: 0.1125
+Epoch 227/300
+Training Loss: 0.0695
+Validation Loss: 0.1125
+Epoch 228/300
+Training Loss: 0.0691
+Validation Loss: 0.1125
+Epoch 229/300
+Training Loss: 0.0694
+Validation Loss: 0.1126
+Epoch 230/300
+Training Loss: 0.0693
+Validation Loss: 0.1126
+Checkpoint saved: checkpoints/model_epoch_230.pt
+Saved input, output, and target as NumPy files for epoch 230.
+Epoch 231/300
+Training Loss: 0.0693
+Validation Loss: 0.1126
+Epoch 232/300
+Training Loss: 0.0693
+Validation Loss: 0.1126
+Epoch 233/300
+Training Loss: 0.0694
+Validation Loss: 0.1126
+Epoch 234/300
+Training Loss: 0.0695
+Validation Loss: 0.1127
+Epoch 235/300
+Training Loss: 0.0692
+Validation Loss: 0.1127
+Epoch 236/300
+Training Loss: 0.0693
+Validation Loss: 0.1127
+Epoch 237/300
+Training Loss: 0.0693
+Validation Loss: 0.1127
+Epoch 238/300
+Training Loss: 0.0692
+Validation Loss: 0.1126
+Epoch 239/300
+Training Loss: 0.0691
+Validation Loss: 0.1127
+Epoch 240/300
+Training Loss: 0.0691
+Validation Loss: 0.1127
+Checkpoint saved: checkpoints/model_epoch_240.pt
+Saved input, output, and target as NumPy files for epoch 240.
+Epoch 241/300
+Training Loss: 0.0693
+Validation Loss: 0.1127
+Epoch 242/300
+Training Loss: 0.0692
+Validation Loss: 0.1127
+Epoch 243/300
+Training Loss: 0.0690
+Validation Loss: 0.1128
+Epoch 244/300
+Training Loss: 0.0693
+Validation Loss: 0.1128
+Epoch 245/300
+Training Loss: 0.0694
+Validation Loss: 0.1128
+Epoch 246/300
+Training Loss: 0.0691
+Validation Loss: 0.1128
+Epoch 247/300
+Training Loss: 0.0691
+Validation Loss: 0.1129
+Epoch 248/300
+Training Loss: 0.0693
+Validation Loss: 0.1129
+Epoch 249/300
+Training Loss: 0.0692
+Validation Loss: 0.1129
+Epoch 250/300
+Training Loss: 0.0692
+Validation Loss: 0.1130
+Checkpoint saved: checkpoints/model_epoch_250.pt
+Saved input, output, and target as NumPy files for epoch 250.
+Epoch 251/300
+Training Loss: 0.0693
+Validation Loss: 0.1130
+Epoch 252/300
+Training Loss: 0.0693
+Validation Loss: 0.1129
+Epoch 253/300
+Training Loss: 0.0692
+Validation Loss: 0.1129
+Epoch 254/300
+Training Loss: 0.0690
+Validation Loss: 0.1129
+Epoch 255/300
+Training Loss: 0.0689
+Validation Loss: 0.1130
+Epoch 256/300
+Training Loss: 0.0690
+Validation Loss: 0.1129
+Epoch 257/300
+Training Loss: 0.0692
+Validation Loss: 0.1129
+Epoch 258/300
+Training Loss: 0.0692
+Validation Loss: 0.1129
+Epoch 259/300
+Training Loss: 0.0689
+Validation Loss: 0.1129
+Epoch 260/300
+Training Loss: 0.0691
+Validation Loss: 0.1129
+Checkpoint saved: checkpoints/model_epoch_260.pt
+Saved input, output, and target as NumPy files for epoch 260.
+Epoch 261/300
+Training Loss: 0.0689
+Validation Loss: 0.1129
+Epoch 262/300
+Training Loss: 0.0690
+Validation Loss: 0.1130
+Epoch 263/300
+Training Loss: 0.0692
+Validation Loss: 0.1130
+Epoch 264/300
+Training Loss: 0.0690
+Validation Loss: 0.1129
+Epoch 265/300
+Training Loss: 0.0690
+Validation Loss: 0.1130
+Epoch 266/300
+Training Loss: 0.0690
+Validation Loss: 0.1130
+Epoch 267/300
+Training Loss: 0.0690
+Validation Loss: 0.1131
+Epoch 268/300
+Training Loss: 0.0689
+Validation Loss: 0.1131
+Epoch 269/300
+Training Loss: 0.0692
+Validation Loss: 0.1132
+Epoch 270/300
+Training Loss: 0.0688
+Validation Loss: 0.1133
+Checkpoint saved: checkpoints/model_epoch_270.pt
+Saved input, output, and target as NumPy files for epoch 270.
+Epoch 271/300
+Training Loss: 0.0690
+Validation Loss: 0.1132
+Epoch 272/300
+Training Loss: 0.0690
+Validation Loss: 0.1133
+Epoch 273/300
+Training Loss: 0.0689
+Validation Loss: 0.1133
+Epoch 274/300
+Training Loss: 0.0690
+Validation Loss: 0.1134
+Epoch 275/300
+Training Loss: 0.0688
+Validation Loss: 0.1134
+Epoch 276/300
+Training Loss: 0.0689
+Validation Loss: 0.1134
+Epoch 277/300
+Training Loss: 0.0689
+Validation Loss: 0.1134
+Epoch 278/300
+Training Loss: 0.0688
+Validation Loss: 0.1134
+Epoch 279/300
+Training Loss: 0.0690
+Validation Loss: 0.1135
+Epoch 280/300
+Training Loss: 0.0689
+Validation Loss: 0.1135
+Checkpoint saved: checkpoints/model_epoch_280.pt
+Saved input, output, and target as NumPy files for epoch 280.
+Epoch 281/300
+Training Loss: 0.0687
+Validation Loss: 0.1135
+Epoch 282/300
+Training Loss: 0.0689
+Validation Loss: 0.1135
+Epoch 283/300
+Training Loss: 0.0690
+Validation Loss: 0.1135
+Epoch 284/300
+Training Loss: 0.0690
+Validation Loss: 0.1135
+Epoch 285/300
+Training Loss: 0.0689
+Validation Loss: 0.1136
+Epoch 286/300
+Training Loss: 0.0687
+Validation Loss: 0.1135
+Epoch 287/300
+Training Loss: 0.0688
+Validation Loss: 0.1136
+Epoch 288/300
+Training Loss: 0.0690
+Validation Loss: 0.1136
+Epoch 289/300
+Training Loss: 0.0689
+Validation Loss: 0.1136
+Epoch 290/300
+Training Loss: 0.0690
+Validation Loss: 0.1136
+Checkpoint saved: checkpoints/model_epoch_290.pt
+Saved input, output, and target as NumPy files for epoch 290.
+Epoch 291/300
+Training Loss: 0.0688
+Validation Loss: 0.1137
+Epoch 292/300
+Training Loss: 0.0688
+Validation Loss: 0.1135
+Epoch 293/300
+Training Loss: 0.0689
+Validation Loss: 0.1136
+Epoch 294/300
+Training Loss: 0.0688
+Validation Loss: 0.1136
+Epoch 295/300
+Training Loss: 0.0689
+Validation Loss: 0.1136
+Epoch 296/300
+Training Loss: 0.0687
+Validation Loss: 0.1136
+Epoch 297/300
+Training Loss: 0.0687
+Validation Loss: 0.1136
+Epoch 298/300
+Training Loss: 0.0686
+Validation Loss: 0.1136
+Epoch 299/300
+Training Loss: 0.0687
+Validation Loss: 0.1136
+Epoch 300/300
+Training Loss: 0.0688
+Validation Loss: 0.1137
+Checkpoint saved: checkpoints/model_epoch_300.pt
+Saved input, output, and target as NumPy files for epoch 300.
