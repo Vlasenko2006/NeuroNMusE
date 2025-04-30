@@ -12,7 +12,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
-from mp3_2_numpy import numpy_to_mp3  # Import the function for saving MP3 files
+#from mp3_2_numpy import numpy_to_mp3  # Import the function for saving MP3 files
 
 # Dataset class
 class AudioDataset(Dataset):
@@ -35,7 +35,7 @@ class AttentionModel(nn.Module):
             nn.Linear(128 * 2, 64),  # Reduce dimensionality
             nn.ReLU(),
             nn.Linear(64, 1)         # Compute attention weights
-            )
+        )
         self.fc = nn.Sequential(
             nn.Linear(128 * 2, 256),
             nn.ReLU(),
@@ -50,10 +50,10 @@ class AttentionModel(nn.Module):
         return output.view(x.size(0), 2, -1) + x  # Add residual connection
 
 # Training and validation
-def train_and_validate(model, train_loader, val_loader, epochs, criterion, optimizer, device, sample_rate):
+def train_and_validate(model, train_loader, val_loader, epochs, criterion, optimizer, device, sample_rate, checkpoint_folder, music_out_folder):
     model = model.to(device)
-    for epoch in range(epochs):
-        print(f"Epoch {epoch + 1}/{epochs}")
+    for epoch in range(1, epochs + 1):
+        print(f"Epoch {epoch}/{epochs}")
 
         # Training
         model.train()
@@ -84,38 +84,54 @@ def train_and_validate(model, train_loader, val_loader, epochs, criterion, optim
         avg_val_loss = val_loss / len(val_loader)
         print(f"Validation Loss: {avg_val_loss:.4f}")
 
-    # Post-validation: Save input, output, and target as MP3
-    save_sample_as_mp3(model, val_loader, device, sample_rate)
+        # Save checkpoint and validation sample every 10 epochs
+        if epoch % 10 == 0:
+            save_checkpoint(model, optimizer, epoch, checkpoint_folder)
+            save_sample_as_numpy(model, val_loader, device, music_out_folder, epoch)
 
-# Save one validation sample as MP3
-def save_sample_as_mp3(model, val_loader, device, sample_rate):
+# Save one validation sample as NumPy files
+def save_sample_as_numpy(model, val_loader, device, music_out_folder, epoch):
     model.eval()
     with torch.no_grad():
         for inputs, targets in val_loader:  # Take one batch
             inputs, targets = inputs.to(device), targets.to(device)
             outputs = model(inputs)
 
-            # Convert to NumPy and save as MP3
+            # Convert to NumPy and save
             input_np = inputs.cpu().numpy()[0]  # Take the first sample
             output_np = outputs.cpu().numpy()[0]
             target_np = targets.cpu().numpy()[0]
 
-            numpy_to_mp3(input_np, sample_rate, output_mp3_file="input.mp3")
-            numpy_to_mp3(output_np, sample_rate, output_mp3_file="output.mp3")
-            numpy_to_mp3(target_np, sample_rate, output_mp3_file="target.mp3")
+            os.makedirs(music_out_folder, exist_ok=True)
+            np.save(os.path.join(music_out_folder, f"input_epoch_{epoch}.npy"), input_np)
+            np.save(os.path.join(music_out_folder, f"output_epoch_{epoch}.npy"), output_np)
+            np.save(os.path.join(music_out_folder, f"target_epoch_{epoch}.npy"), target_np)
 
-            print("Saved input, output, and target as MP3 files.")
+            print(f"Saved input, output, and target as NumPy files for epoch {epoch}.")
             break  # Save only one sample
+
+# Save model checkpoint
+def save_checkpoint(model, optimizer, epoch, checkpoint_folder):
+    os.makedirs(checkpoint_folder, exist_ok=True)
+    checkpoint_path = os.path.join(checkpoint_folder, f"model_epoch_{epoch}.pt")
+    torch.save({
+        'epoch': epoch,
+        'model_state_dict': model.state_dict(),
+        'optimizer_state_dict': optimizer.state_dict()
+    }, checkpoint_path)
+    print(f"Checkpoint saved: {checkpoint_path}")
 
 # Main function
 if __name__ == "__main__":
     # Constants
     dataset_folder = "dataset"
     batch_size = 16
-    epochs = 10
+    epochs = 30
     sample_rate = 16000
     learning_rate = 0.001
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    checkpoint_folder = "checkpoints"
+    music_out_folder = "music_out"
 
     # Load datasets
     train_data = np.load(os.path.join(dataset_folder, "training_set.npy"), allow_pickle=True)
@@ -134,4 +150,4 @@ if __name__ == "__main__":
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
     # Train and validate
-    train_and_validate(model, train_loader, val_loader, epochs, criterion, optimizer, device, sample_rate)
+    train_and_validate(model, train_loader, val_loader, epochs, criterion, optimizer, device, sample_rate, checkpoint_folder, music_out_folder)
