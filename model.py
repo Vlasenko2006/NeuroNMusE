@@ -15,7 +15,6 @@ from tqdm import tqdm
 from torch.nn import TransformerEncoder, TransformerEncoderLayer
 
 
-
 # Dataset class
 class AudioDataset(Dataset):
     def __init__(self, data):
@@ -29,35 +28,66 @@ class AudioDataset(Dataset):
         return torch.tensor(input_chunk, dtype=torch.float32), torch.tensor(target_chunk, dtype=torch.float32)
 
 
-
+# Attention-based neural network with Encoder-Decoder architecture
 class AttentionModel(nn.Module):
-    def __init__(self, input_dim, num_heads=4, num_layers=2):
+    def __init__(self, input_dim, num_heads=4, num_layers=2, compression_dim=64):
         super(AttentionModel, self).__init__()
+        
+        # Encoder: Compress the input sequence into a lower-dimensional representation
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, 256),
+            nn.ReLU(),
+            nn.Linear(256, compression_dim)  # Compress to lower dimension
+        )
+        
         # Transformer Encoder
-        encoder_layer = TransformerEncoderLayer(d_model=input_dim, nhead=num_heads, dim_feedforward=512, dropout=0.1)
+        encoder_layer = TransformerEncoderLayer(d_model=compression_dim, nhead=num_heads, dim_feedforward=512, dropout=0.1)
         self.transformer = TransformerEncoder(encoder_layer, num_layers=num_layers)
-
-        # Feed-forward layers
+        
+        # Decoder: Reconstruct the original input from the compressed representation
+        self.decoder = nn.Sequential(
+            nn.Linear(compression_dim, 256),
+            nn.ReLU(),
+            nn.Linear(256, input_dim)  # Reconstruct to original dimension
+        )
+        
+        # Feed-forward layers for the task-specific output (e.g., audio enhancement)
         self.fc = nn.Sequential(
             nn.Linear(input_dim, 256),
             nn.ReLU(),
             nn.Dropout(p=0.3),
-            nn.Linear(256, 256),      # Additional layer
+            nn.Linear(256, 256),
             nn.ReLU(),
-            nn.Dropout(p=0.3),       # Additional dropout
+            nn.Dropout(p=0.3),
             nn.Linear(256, input_dim * 2)  # Output layer
         )
 
     def forward(self, x):
-        # Transformer expects input of shape [seq_len, batch_size, input_dim]
-        x = x.permute(1, 0, 2)  # Change shape to [seq_len, batch_size, input_dim]
-        transformer_out = self.transformer(x)
+        # Input shape: [batch_size, seq_len, input_dim]
+        
+        # Pass through the encoder
+        encoded = self.encoder(x)  # Shape: [batch_size, seq_len, compression_dim]
+        
+        # Permute dimensions for Transformer (seq_len first)
+        encoded = encoded.permute(1, 0, 2)  # Shape: [seq_len, batch_size, compression_dim]
+        
+        # Pass through Transformer Encoder
+        transformer_out = self.transformer(encoded)  # Shape: [seq_len, batch_size, compression_dim]
+        
+        # Permute back to original dimensions
+        transformer_out = transformer_out.permute(1, 0, 2)  # Shape: [batch_size, seq_len, compression_dim]
+        
+        # Pass through the decoder to reconstruct the input
+        reconstructed = self.decoder(transformer_out)  # Shape: [batch_size, seq_len, input_dim]
+        
+        # Use mean pooling across sequence length for task-specific output
+        context_vector = transformer_out.mean(dim=1)  # Shape: [batch_size, compression_dim]
+        output = self.fc(context_vector)  # Shape: [batch_size, input_dim * 2]
+        
+        return reconstructed, output.view(x.size(0), 2, -1)  # Return reconstructed input and task-specific output
 
-        # Use the first token (global representation) or mean pooling over all tokens
-        context_vector = transformer_out.mean(dim=0)  # Shape: [batch_size, input_dim]
-        output = self.fc(context_vector)
-        return output.view(x.size(1), 2, -1)  # Reshape to [batch_size, 2, -1]
 
+# Training and validation
 def train_and_validate(model, train_loader, val_loader, start_epoch, epochs, criterion, optimizer, device, sample_rate, checkpoint_folder, music_out_folder):
     # Move the model to the correct device
     model = model.to(device)
@@ -76,10 +106,12 @@ def train_and_validate(model, train_loader, val_loader, start_epoch, epochs, cri
             optimizer.zero_grad()
 
             # Forward pass
-            outputs = model(inputs)
+            reconstructed, outputs = model(inputs)
 
-            # Compute loss
-            loss = criterion(outputs, targets)
+            # Compute loss: Reconstruction loss + Task-specific loss
+            reconstruction_loss = criterion(reconstructed, inputs)
+            task_loss = criterion(outputs, targets)
+            loss = reconstruction_loss + task_loss
 
             # Backward pass
             loss.backward()
@@ -103,10 +135,12 @@ def train_and_validate(model, train_loader, val_loader, start_epoch, epochs, cri
                 inputs, targets = inputs.to(device), targets.to(device)
 
                 # Forward pass
-                outputs = model(inputs)
+                reconstructed, outputs = model(inputs)
 
                 # Compute loss
-                loss = criterion(outputs, targets)
+                reconstruction_loss = criterion(reconstructed, inputs)
+                task_loss = criterion(outputs, targets)
+                loss = reconstruction_loss + task_loss
 
                 # Accumulate the validation loss
                 val_loss += loss.item()
@@ -121,27 +155,29 @@ def train_and_validate(model, train_loader, val_loader, start_epoch, epochs, cri
             save_sample_as_numpy(model, val_loader, device, music_out_folder, epoch)
 
 
-
 # Save one validation sample as NumPy files
 def save_sample_as_numpy(model, val_loader, device, music_out_folder, epoch):
     model.eval()
     with torch.no_grad():
         for inputs, targets in val_loader:  # Take one batch
             inputs, targets = inputs.to(device), targets.to(device)
-            outputs = model(inputs)
+            reconstructed, outputs = model(inputs)
 
             # Convert to NumPy and save
             input_np = inputs.cpu().numpy()[0]  # Take the first sample
+            reconstructed_np = reconstructed.cpu().numpy()[0]
             output_np = outputs.cpu().numpy()[0]
             target_np = targets.cpu().numpy()[0]
 
             os.makedirs(music_out_folder, exist_ok=True)
             np.save(os.path.join(music_out_folder, f"input_epoch_{epoch}.npy"), input_np)
+            np.save(os.path.join(music_out_folder, f"reconstructed_epoch_{epoch}.npy"), reconstructed_np)
             np.save(os.path.join(music_out_folder, f"output_epoch_{epoch}.npy"), output_np)
             np.save(os.path.join(music_out_folder, f"target_epoch_{epoch}.npy"), target_np)
 
-            print(f"Saved input, output, and target as NumPy files for epoch {epoch}.")
+            print(f"Saved input, reconstructed, output, and target as NumPy files for epoch {epoch}.")
             break  # Save only one sample
+
 
 # Save model checkpoint
 def save_checkpoint(model, optimizer, epoch, checkpoint_folder):
@@ -154,32 +190,19 @@ def save_checkpoint(model, optimizer, epoch, checkpoint_folder):
     }, checkpoint_path)
     print(f"Checkpoint saved: {checkpoint_path}")
 
-# Load model checkpoint
-def load_checkpoint(checkpoint_path, model, optimizer):
-    if os.path.isfile(checkpoint_path):
-        print(f"Loading checkpoint from {checkpoint_path}")
-        checkpoint = torch.load(checkpoint_path)
-        model.load_state_dict(checkpoint['model_state_dict'])
-        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-        start_epoch = checkpoint['epoch'] + 1  # Start from the next epoch
-        print(f"Checkpoint loaded. Resuming from epoch {start_epoch}.")
-        return start_epoch
-    else:
-        print(f"No checkpoint found at {checkpoint_path}. Starting from epoch 1.")
-        return 1  # Start from the first epoch if no checkpoint is found
 
 # Main function
 if __name__ == "__main__":
     # Constants
     dataset_folder = "../dataset"
-    batch_size = 16 * 4
+    batch_size = 16
     epochs = 3000
     sample_rate = 16000
     learning_rate = 0.00002
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    checkpoint_folder = "checkpoints"
+    checkpoint_folder = "checkpoints_trans"
     music_out_folder = "music_out"
-    resume_from_checkpoint = "checkpoints/model_epoch_890.pt"  # Change this to the checkpoint path if resuming
+    resume_from_checkpoint = None  # Change this to the checkpoint path if resuming
 
     # Load datasets
     train_data = np.load(os.path.join(dataset_folder, "training_set.npy"), allow_pickle=True)
@@ -194,7 +217,7 @@ if __name__ == "__main__":
     # Model, criterion, optimizer
     input_dim = train_data[0][0].shape[-1]  # Infer input dimension from data
     model = AttentionModel(input_dim=input_dim).to(device)
-    criterion = nn.MSELoss()  # Use MSELoss for reconstruction tasks
+    criterion = nn.MSELoss()  # Use MSELoss for reconstruction and task-specific losses
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
     # Load checkpoint if specified
