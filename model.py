@@ -14,7 +14,11 @@ from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 from torch.nn import TransformerEncoder, TransformerEncoderLayer
 
-sf = 6
+sf = 6  # Scale factor for hidden dimensions
+DROPOUT_RATE = 0.3  # Global dropout rate
+DROPOUT_RATE_ed = 0.3  # Global dropout rate
+FREEZE_ENCODER_DECODER_AFTER = 10000  # Number of steps after which encoder-decoder weights are frozen
+
 # Dataset class
 class AudioDataset(Dataset):
     def __init__(self, data):
@@ -28,44 +32,55 @@ class AudioDataset(Dataset):
         return torch.tensor(input_chunk, dtype=torch.float32), torch.tensor(target_chunk, dtype=torch.float32)
 
 
-# Attention-based neural network with Encoder-Decoder architecture
+# Enhanced Attention-based neural network with Encoder-Decoder architecture
 class AttentionModel(nn.Module):
     def __init__(self, input_dim, num_heads=4, num_layers=2, compression_dim=64 * sf):
         super(AttentionModel, self).__init__()
         
-        # Encoder: Compress the input sequence into a lower-dimensional representation
+        # Enhanced Encoder: Compress the input sequence into a lower-dimensional representation
         self.encoder = nn.Sequential(
             nn.Linear(input_dim, 256 * sf),
             nn.ReLU(),
-            nn.Linear(256 * sf, compression_dim)  # Compress to lower dimension
+            nn.Dropout(p=DROPOUT_RATE_ed),
+            nn.Linear(256 * sf, 128 * sf),
+            nn.ReLU(),
+            nn.Dropout(p=DROPOUT_RATE_ed),
+            nn.Linear(128 * sf, compression_dim),  # Compress to lower dimension
+            nn.ReLU(),
+            nn.LayerNorm(compression_dim)  # Normalize the encoded representation
         )
         
         # Transformer Encoder
-        encoder_layer = TransformerEncoderLayer(d_model=compression_dim, nhead=num_heads, dim_feedforward=512, dropout=0.1)
+        encoder_layer = TransformerEncoderLayer(d_model=compression_dim, nhead=num_heads, dim_feedforward=512 * sf, dropout=DROPOUT_RATE)
         self.transformer = TransformerEncoder(encoder_layer, num_layers=num_layers)
         
-        # Decoder: Reconstruct the original input from the compressed representation
+        # Enhanced Decoder: Reconstruct the original input from the compressed representation
         self.decoder = nn.Sequential(
-            nn.Linear(compression_dim, 256 * sf),
+            nn.Linear(compression_dim, 128 * sf),
             nn.ReLU(),
-            nn.Linear(256 * sf, input_dim)  # Reconstruct to original dimension
+            nn.Dropout(p=DROPOUT_RATE_ed),
+            nn.Linear(128 * sf, 256 * sf),
+            nn.ReLU(),
+            nn.Dropout(p=DROPOUT_RATE_ed),
+            nn.Linear(256 * sf, input_dim),  # Reconstruct to original dimension
+            nn.Sigmoid()  # Sigmoid activation for output stabilization
         )
         
         # Feed-forward layers for the task-specific output (e.g., audio enhancement)
         self.fc = nn.Sequential(
             nn.Linear(compression_dim, 256 * sf),
             nn.ReLU(),
-            nn.Dropout(p=0.3),
+            nn.Dropout(p=DROPOUT_RATE),
             nn.Linear(256 * sf, 256 * sf),
             nn.ReLU(),
-            nn.Dropout(p=0.3),
+            nn.Dropout(p=DROPOUT_RATE),
             nn.Linear(256 * sf, input_dim * 2)  # Output layer
         )
 
     def forward(self, x):
         # Input shape: [batch_size, seq_len, input_dim]
-        
-        # Pass through the encoder
+
+        # Pass through the enhanced encoder
         encoded = self.encoder(x)  # Shape: [batch_size, seq_len, compression_dim]
         
         # Permute dimensions for Transformer (seq_len first)
@@ -77,7 +92,7 @@ class AttentionModel(nn.Module):
         # Permute back to original dimensions
         transformer_out = transformer_out.permute(1, 0, 2)  # Shape: [batch_size, seq_len, compression_dim]
         
-        # Pass through the decoder to reconstruct the input
+        # Pass through the enhanced decoder to reconstruct the input
         reconstructed = self.decoder(encoded)  # Shape: [batch_size, seq_len, input_dim]
         
         # Use mean pooling across sequence length for task-specific output
@@ -87,11 +102,18 @@ class AttentionModel(nn.Module):
         return reconstructed, output.view(x.size(0), 2, -1)  # Return reconstructed input and task-specific output
 
 
+# Helper function to freeze parameters
+def freeze_parameters(module):
+    for param in module.parameters():
+        param.requires_grad = False
+
+
 # Training and validation
 def train_and_validate(model, train_loader, val_loader, start_epoch, epochs, criterion, optimizer, device, sample_rate, checkpoint_folder, music_out_folder):
     # Move the model to the correct device
     model = model.to(device)
 
+    step = 0  # Track the number of steps
     for epoch in range(start_epoch, epochs + 1):
         print(f"Epoch {epoch}/{epochs}")
 
@@ -99,6 +121,19 @@ def train_and_validate(model, train_loader, val_loader, start_epoch, epochs, cri
         model.train()
         train_loss = 0
         for inputs, targets in tqdm(train_loader, desc="Training"):
+            # Increment step count
+            step += 1
+
+            # Optionally freeze encoder-decoder weights
+            if step > FREEZE_ENCODER_DECODER_AFTER:
+                print("Freezing encoder and decoder weights...")
+                freeze_parameters(model.encoder)
+                freeze_parameters(model.decoder)
+            else:
+                freeze_parameters(model.transformer)
+                freeze_parameters(model.fc)
+
+
             # Move inputs and targets to the correct device
             inputs, targets = inputs.to(device), targets.to(device)
 
@@ -110,8 +145,8 @@ def train_and_validate(model, train_loader, val_loader, start_epoch, epochs, cri
 
             # Compute loss: Reconstruction loss + Task-specific loss
             reconstruction_loss = criterion(reconstructed, inputs)
-            if epoch< 2300:
-                task_loss = 0.
+            if epoch < FREEZE_ENCODER_DECODER_AFTER:
+                task_loss = 0.0
             else:
                 task_loss = criterion(outputs, targets)
             loss = reconstruction_loss + task_loss
@@ -127,7 +162,7 @@ def train_and_validate(model, train_loader, val_loader, start_epoch, epochs, cri
 
         # Calculate average training loss
         avg_train_loss = train_loss / len(train_loader)
-        print(f"Training Loss: {avg_train_loss:.4f}, reconstruction_loss: {reconstruction_loss:.4f}")
+        print(f"Training Loss: {avg_train_loss:.4f}, Reconstruction Loss: {reconstruction_loss:.4f}")
 
         # Validation
         model.eval()
