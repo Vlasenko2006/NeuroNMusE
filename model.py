@@ -12,6 +12,9 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
+from torch.nn import TransformerEncoder, TransformerEncoderLayer
+
+
 
 # Dataset class
 class AudioDataset(Dataset):
@@ -25,34 +28,35 @@ class AudioDataset(Dataset):
         input_chunk, target_chunk = self.data[idx]
         return torch.tensor(input_chunk, dtype=torch.float32), torch.tensor(target_chunk, dtype=torch.float32)
 
-# Attention-based neural network with Dropout
+
+
 class AttentionModel(nn.Module):
-    def __init__(self, input_dim):
+    def __init__(self, input_dim, num_heads=4, num_layers=2):
         super(AttentionModel, self).__init__()
-        self.reduce_dim = nn.Linear(input_dim, 128)
-        self.lstm = nn.LSTM(128, 128, num_layers=2, batch_first=True, bidirectional=True)
-        self.attention = nn.Sequential(
-            nn.Linear(128 * 2, 64),  # Reduce dimensionality
-            nn.ReLU(),
-            nn.Linear(64, 1)         # Compute attention weights
-        )
+        # Transformer Encoder
+        encoder_layer = TransformerEncoderLayer(d_model=input_dim, nhead=num_heads, dim_feedforward=512, dropout=0.1)
+        self.transformer = TransformerEncoder(encoder_layer, num_layers=num_layers)
+
+        # Feed-forward layers
         self.fc = nn.Sequential(
-            nn.Linear(128 * 2, 256),
+            nn.Linear(input_dim, 256),
             nn.ReLU(),
-            nn.Dropout(p=0.5),
+            nn.Dropout(p=0.3),
             nn.Linear(256, 256),      # Additional layer
             nn.ReLU(),
-            nn.Dropout(p=0.35),       # Additional dropout
+            nn.Dropout(p=0.3),       # Additional dropout
             nn.Linear(256, input_dim * 2)  # Output layer
         )
 
     def forward(self, x):
-        x0 = self.reduce_dim(x) 
-        lstm_out, _ = self.lstm(x0)
-        attention_weights = torch.softmax(self.attention(lstm_out), dim=1)
-        context_vector = torch.sum(attention_weights * lstm_out, dim=1)
+        # Transformer expects input of shape [seq_len, batch_size, input_dim]
+        x = x.permute(1, 0, 2)  # Change shape to [seq_len, batch_size, input_dim]
+        transformer_out = self.transformer(x)
+
+        # Use the first token (global representation) or mean pooling over all tokens
+        context_vector = transformer_out.mean(dim=0)  # Shape: [batch_size, input_dim]
         output = self.fc(context_vector)
-        return output.view(x.size(0), 2, -1) + x  # Add residual connection
+        return output.view(x.size(1), 2, -1)  # Reshape to [batch_size, 2, -1]
 
 def train_and_validate(model, train_loader, val_loader, start_epoch, epochs, criterion, optimizer, device, sample_rate, checkpoint_folder, music_out_folder):
     # Move the model to the correct device
