@@ -14,7 +14,7 @@ from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 from torch.nn import TransformerEncoder, TransformerEncoderLayer
 
-
+sf = 6
 # Dataset class
 class AudioDataset(Dataset):
     def __init__(self, data):
@@ -30,14 +30,14 @@ class AudioDataset(Dataset):
 
 # Attention-based neural network with Encoder-Decoder architecture
 class AttentionModel(nn.Module):
-    def __init__(self, input_dim, num_heads=4, num_layers=2, compression_dim=64):
+    def __init__(self, input_dim, num_heads=4, num_layers=2, compression_dim=64 * sf):
         super(AttentionModel, self).__init__()
         
         # Encoder: Compress the input sequence into a lower-dimensional representation
         self.encoder = nn.Sequential(
-            nn.Linear(input_dim, 256),
+            nn.Linear(input_dim, 256 * sf),
             nn.ReLU(),
-            nn.Linear(256, compression_dim)  # Compress to lower dimension
+            nn.Linear(256 * sf, compression_dim)  # Compress to lower dimension
         )
         
         # Transformer Encoder
@@ -46,20 +46,20 @@ class AttentionModel(nn.Module):
         
         # Decoder: Reconstruct the original input from the compressed representation
         self.decoder = nn.Sequential(
-            nn.Linear(compression_dim, 256),
+            nn.Linear(compression_dim, 256 * sf),
             nn.ReLU(),
-            nn.Linear(256, input_dim)  # Reconstruct to original dimension
+            nn.Linear(256 * sf, input_dim)  # Reconstruct to original dimension
         )
         
         # Feed-forward layers for the task-specific output (e.g., audio enhancement)
         self.fc = nn.Sequential(
-            nn.Linear(compression_dim, 256),
+            nn.Linear(compression_dim, 256 * sf),
             nn.ReLU(),
             nn.Dropout(p=0.3),
-            nn.Linear(256, 256),
+            nn.Linear(256 * sf, 256 * sf),
             nn.ReLU(),
             nn.Dropout(p=0.3),
-            nn.Linear(256, input_dim * 2)  # Output layer
+            nn.Linear(256 * sf, input_dim * 2)  # Output layer
         )
 
     def forward(self, x):
@@ -110,7 +110,7 @@ def train_and_validate(model, train_loader, val_loader, start_epoch, epochs, cri
 
             # Compute loss: Reconstruction loss + Task-specific loss
             reconstruction_loss = criterion(reconstructed, inputs)
-            if epoch<10:
+            if epoch< 2300:
                 task_loss = 0.
             else:
                 task_loss = criterion(outputs, targets)
@@ -127,7 +127,7 @@ def train_and_validate(model, train_loader, val_loader, start_epoch, epochs, cri
 
         # Calculate average training loss
         avg_train_loss = train_loss / len(train_loader)
-        print(f"Training Loss: {avg_train_loss:.4f}")
+        print(f"Training Loss: {avg_train_loss:.4f}, reconstruction_loss: {reconstruction_loss:.4f}")
 
         # Validation
         model.eval()
@@ -213,14 +213,14 @@ def load_checkpoint(checkpoint_path, model, optimizer):
 if __name__ == "__main__":
     # Constants
     dataset_folder = "../dataset"
-    batch_size = 16
-    epochs = 3000
+    batch_size = 16 * 8
+    epochs = 30000
     sample_rate = 16000
-    learning_rate = 0.00002
+    learning_rate = 0.00002 * 0.25
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    checkpoint_folder = "checkpoints_trans"
-    music_out_folder = "music_out_trans"
-    resume_from_checkpoint = None  # Change this to the checkpoint path if resuming
+    checkpoint_folder = "checkpoints_trans2"
+    music_out_folder = "music_out_trans2"
+    resume_from_checkpoint = "checkpoints_trans2/model_epoch_1290.pt"  # Change this to the checkpoint path if resuming
 
     # Load datasets
     train_data = np.load(os.path.join(dataset_folder, "training_set.npy"), allow_pickle=True)
@@ -236,7 +236,7 @@ if __name__ == "__main__":
     input_dim = train_data[0][0].shape[-1]  # Infer input dimension from data
     model = AttentionModel(input_dim=input_dim).to(device)
     criterion = nn.MSELoss()  # Use MSELoss for reconstruction and task-specific losses
-    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
 
     # Load checkpoint if specified
     start_epoch = 1
