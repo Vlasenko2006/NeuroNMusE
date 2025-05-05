@@ -18,7 +18,10 @@ The model has two outputs:
 
 Below is an example of the network's 10-second music output generated from the first 10-seconds of soundtrack "Bablo Pobezhdaet Zlo" created by Yndervud music band. The network excels at capturing rhythmic patterns and reproducing drum and bass guitar sections. However, due to computational constraints (e.g., a single GPU with 15GB of RAM), the number of layers and transformer heads is limited, and the training dataset is relatively small. As a result, the network struggles with reproducing complex elements like vocals and rhythm guitar. 
 
-🎵 **[Download the .mp3 output](https://github.com/Vlasenko2006/Lets_Rock/blob/main/output_example.mp3)** 🎵
+
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 🎵 **[Download the .mp3 output](https://github.com/Vlasenko2006/Lets_Rock/blob/main/output_example.mp3)** 🎵
+
 
 ---
 
@@ -30,7 +33,7 @@ The waveform format captures:
 - The **loudness** (amplitude) of the audio signal at each time step.
 - Temporal patterns essential for modeling rhythms, beats, and melodies.
 
-Below is a plot of a converted `.mp3` audio file in waveform format. The x-axis represents time (microseconds), and the y-axis represents the amplitude of the signal.
+Below is a plot of a converted `.mp3` audio file in waveform format (orange curve) and the predicted one by the NN (violet). The x-axis represents time (microseconds), and the y-axis represents the amplitude of the signal.
 
 ![Sample Output](https://github.com/Vlasenko2006/Lets_Rock/blob/main/waveformat.png)
 
