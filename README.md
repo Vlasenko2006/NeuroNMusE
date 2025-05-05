@@ -2,7 +2,10 @@
 
 ### Overview
 
-This is a compact neural network designed to generate the next 10 seconds of an audio track based on its first 10 seconds. The network consists of three main components:
+This is a compact neural network designed to generate the next 10 seconds of an audio track based on its first 10 seconds. 
+
+
+The network consists of three main components:
 
 1. **Encoder**: Encodes the input audio into a compact representation.
 2. **Transformer**: Processes the encoded representation using attention layers to model temporal dependencies.
@@ -13,6 +16,15 @@ The model has two outputs:
 - **Output 2**: The encoded signal is passed through the transformer and then decoded into the predicted continuation of the audio track.
 
 ---
+
+### Example Output
+
+Below is an example of the network's 10-second music output generated from the first 10-seconds of soundtrack "Bablo Pobezhdaet Zlo" created by Yndervud music band. The network excels at capturing rhythmic patterns and reproducing drum and bass guitar sections. However, due to computational constraints (e.g., a single GPU with 15GB of RAM), the number of layers and transformer heads is limited, and the training dataset is relatively small. As a result, the network struggles with reproducing complex elements like vocals and rhythm guitar. 
+
+🎵 **[Listen to the output](https://github.com/Vlasenko2006/Lets_Rock/blob/main/output_example.mp3)** 🎵
+
+---
+
 
 ### Key Features
 
@@ -35,6 +47,7 @@ Below is a plot of a converted `.mp3` audio file in waveform format. The x-axis 
 (*Insert your plot here.*)
 
 ---
+
 
 ### Training Process
 
