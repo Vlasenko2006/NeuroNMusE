@@ -2,10 +2,7 @@
 
 ### Overview
 
-This is a compact neural network designed to generate the next 10 seconds of an audio track based on its first 10 seconds. 
-
-
-The network consists of three main components:
+This is a compact neural network designed to generate the next 10 seconds of an audio track based on its first 10 seconds. The network consists of three main components:
 
 1. **Encoder**: Encodes the input waveformat files (numpy analog of an audio file, see below) into a compact representation using convolutional and max-pooling layers.
 2. **Transformer**: Processes the encoded representation using attention layers to model temporal dependencies.
