@@ -4,9 +4,9 @@
 
 This is a compact neural network designed to generate the next 10 seconds of an audio track based on its first 10 seconds. The network consists of three main components:
 
-1. **Encoder**: Encodes the input waveformat files (numpy analog of an audio file, see below) into a compact representation using convolutional and max-pooling layers.
+1. **Encoder**: Encodes the input waveformat files (numpy analog of an audio file, see **Data Preprocessing**) into a compact representation using convolutional and max-pooling layers.
 2. **Transformer**: Processes the encoded representation using attention layers to model temporal dependencies.
-3. **Decoder**: Decodes the processed representation back into waveformat files.
+3. **Decoder**: Decodes the processed representation back into waveformat files. Thes outputs are converted back into .mp3 files.
 
 The model has two outputs:
 - **Output 1**: The original input audio, passed through the encoder and decoder, is reconstructed. This ensures the network's ability to encode and decode the signal effectively without losing important features.
