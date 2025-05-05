@@ -16,7 +16,7 @@ The model has two outputs:
 
 ### Example Output
 
-Below is an example of the network's 10-second music output generated from the first 10-seconds of soundtrack "Bablo Pobezhdaet Zlo" created by Yndervud music band. The network excels at capturing rhythmic patterns and reproducing drum and bass guitar sections. However, due to computational constraints (e.g., a single GPU with 15GB of RAM), the number of layers and transformer heads is limited, and the training dataset is relatively small. As a result, the network struggles with reproducing complex elements like vocals and rhythm guitar. 
+Below is an example of the network's 10-second music output generated from the first 10-seconds of soundtrack "Bablo Pobezhdaet Zlo" created by "Yndervud" music band. Although the input is a low telephonic-quality (12000 kHz sample frequency) sound track, the network excels at capturing rhythmic patterns and reproducing drum and bass guitar sections. However, due to computational constraints (e.g., a single GPU with 15GB of RAM), the number of layers and transformer heads is limited, and the training dataset is relatively small (400 songs). As a result, the network struggles with reproducing complex elements like vocals, percussions and rhythm guitar. 
 
 &nbsp;
 
@@ -24,7 +24,18 @@ Below is an example of the network's 10-second music output generated from the f
 
 &nbsp;
 
+### Advantages 
+
+1. The neural network is simple and trainable within one hour (120 epochs is pretty enough).
+2. The neural network correctly captures the mood and style of the song distinguishing reggae, rock, salsa, etc. rythms in the input without explicit specifications.
+3. The neural network creates its own rythmic and instrumental pattern in the output which is similar but not the same as in the corresponding target (original continuation of the input.)  
 ---
+
+### Disadvantages
+
+1. The NN creates a melody in a bass section with drums and bass guitar only (even if the original track has none of these instruments), failing in reproducing complex instruments, guitar riffs and vocal.
+2. Complete failure in reproducing middle-high frequencies - giving a constant tone instead.
+3. The NN was trained on a low quality (telephoic quality) audio files. Low quality in results in low quality out. 
 
 ### Data Preprocessing
 
