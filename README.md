@@ -1,8 +1,8 @@
-# Neural Network for Audio Track Prediction
+# Neural Network for Music Exploration (NeuroNMusE)
 
 ### Overview
 
-Meet a compact and efficient neural network designed to generate the next 10 seconds of an audio track based on its first 10 seconds for limited computational resources. If you are a musician struggling to compose your songs, let my neural network be your muse. Play any part (even poorly composed) of your future melody, and let my neural network suggest an alternative rhythm and melody. The network consists of three main components.
+Meet a compact and efficient Neural Network for Music Exploration (NeuroNMusE) designed to generate the next 10 seconds of an audio track based on its first 10 seconds for limited computational resources. If you are a musician struggling to compose your songs, let my neural network be your muse. Play any part (even poorly composed) of your future melody, and let my neural network suggest an alternative rhythm and melody. The network consists of three main components.
 
 1. **Encoder**: Encodes the input waveformat files (numpy analog of an audio file, see **Data Preprocessing**) into a compact representation using convolutional and max-pooling layers.
 2. **Transformer**: Processes the encoded representation using multi-head attention layers to capture temporal patterns in the audio signal and model temporal dependencies.
