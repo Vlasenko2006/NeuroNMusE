@@ -7,23 +7,9 @@ Created on Wed Apr 30 11:13:59 2025
 """
 
 import os
-import librosa
 import numpy as np
-import soundfile as sf
+from numpy_2_mp3 import mp3_to_numpy
 
-def mp3_to_numpy(mp3_file, target_sr=16000):
-    """
-    Converts an MP3 file to a NumPy array.
-    Parameters:
-    - mp3_file: Path to the input MP3 file.
-    - target_sr: Target sample rate for the waveform (default = 16 kHz).
-    Returns:
-    - waveform: NumPy array of audio data.
-    - sample_rate: Sample rate of the audio.
-    """
-    # Load the MP3 file as a waveform
-    waveform, sample_rate = librosa.load(mp3_file, sr=target_sr, mono=False)
-    return waveform, sample_rate
 
 def process_music_files(input_folder, output_folder, max_files=200, clip_duration=120, target_sr=16000):
     """
@@ -81,7 +67,7 @@ def process_music_files(input_folder, output_folder, max_files=200, clip_duratio
 
 # Example Usage
 if __name__ == "__main__":
-    path = "/Volumes/Music_Video_Foto/Musik/Phone/"  # Input folder containing music files
+    path = "path to your music"  # Input folder containing music files
     output_folder = "output"  # Output folder to save processed files
     
     

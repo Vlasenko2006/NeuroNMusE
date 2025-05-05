@@ -12,6 +12,8 @@ import soundfile as sf
 from pydub import AudioSegment
 import numpy as np
 
+
+
 # Ensure ffmpeg and ffprobe are configured
 os.environ["PATH"] += os.pathsep + "/usr/local/bin"
 AudioSegment.converter = "/usr/local/bin/ffmpeg"
@@ -52,17 +54,32 @@ def numpy_to_mp3(waveform, sample_rate, output_mp3_file="output.mp3"):
     # Remove the temporary .wav file
     os.remove(temp_wav_file)
 
-# Example Usage
-if __name__ == "__main__":
-    path = "/Volumes/Music_Video_Foto/Musik/LATINOS"
-    
-    # Input MP3 file
-    example_mp3 = os.path.join(path, "Desperado.mp3")
-    
-    # Step 1: Convert MP3 to NumPy array
-    waveform, sample_rate = mp3_to_numpy(example_mp3)
 
-    waveform = waveform.astype(np.float32)
-    
-    # Step 2: Convert NumPy array back to MP3
-    numpy_to_mp3(waveform, sample_rate, output_mp3_file="Desperado_converted.mp3")
+# Paths
+sample_rate = 12000
+path = "/Users/andreyvlasenko/tst/Music_NN/Lets_Rock/NN_output/"
+path_output = "/Users/andreyvlasenko/tst/Music_NN/Lets_Rock/NN_music_output"
+
+# Ensure the output directory exists
+os.makedirs(path_output, exist_ok=True)
+
+# Process all .npy files
+for file in os.listdir(path):
+    if file.endswith(".npy"):
+        file_path = os.path.join(path, file)
+        print(f"Processing file: {file_path}")
+        
+        # Load the NumPy array
+        array = np.load(file_path)
+        
+        # Subtract 1 and convert to float32
+        array = array - 1.0
+        array = array.astype(np.float32)
+        
+        # Generate output MP3 file path
+        output_mp3_file = os.path.join(path_output, file.replace(".npy", ".mp3"))
+        
+        # Convert to MP3
+        numpy_to_mp3(array, sample_rate, output_mp3_file)
+
+print("Processing complete. MP3 files saved to:", path_output)
