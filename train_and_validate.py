@@ -10,8 +10,6 @@ def freeze_parameters(module):
         param.requires_grad = False
 
 
-
-
 # Training and validation with VAE
 def train_and_validate(model,
                        train_loader, 
@@ -24,7 +22,14 @@ def train_and_validate(model,
                        sample_rate, 
                        checkpoint_folder,
                        music_out_folder, 
-                       FREEZE_ENCODER_DECODER_AFTER=10):
+                       FREEZE_ENCODER_DECODER_AFTER=10,
+                       accumulation_steps=4):  # Add accumulation_steps parameter
+    """
+    Train and validate the model with gradient accumulation for memory efficiency.
+
+    Args:
+        accumulation_steps (int): Number of steps to accumulate gradients before updating the model.
+    """
     # Move the model to the correct device
     model = model.to(device)
 
@@ -34,79 +39,54 @@ def train_and_validate(model,
         # Training
         model.train()
         train_loss = 0
-        for inputs, targets in tqdm(train_loader, desc="Training"):
+        optimizer.zero_grad()  # Initialize gradients before accumulation
 
+        for batch_idx, (inputs, targets) in enumerate(tqdm(train_loader, desc="Training")):
             # Move inputs and targets to the correct device
-            total_loss = torch.tensor(0.).to(device)
             inputs, targets = inputs.to(device), targets.to(device)
-
             # Preprocess inputs and targets
-            inputs = inputs    +1
-            targets = targets  +1
-
-            # Zero the gradients
-            optimizer.zero_grad()
+            inputs = inputs + 1
+            targets = targets + 1
 
             # Forward pass
             reconstructed, outputs = model(inputs)
-
-            #reconstructed_c = compute_chunk_values(reconstructed, 200, reduction="max")
-            #inputs_c = compute_chunk_values(inputs, 200, reduction="max")
-            #outputs_c = compute_chunk_values(outputs, 200, reduction="max")
-            #targets_c = compute_chunk_values(targets, 200, reduction="max")
-
-           # factor = 30
-           # task_loss_c = factor * criterion(outputs_c, targets_c)
-           # rec_loss_c = factor * criterion(inputs_c, reconstructed_c)
+            #if epoch> 1: print("outputs.shape = ", outputs.shape)
             rec_loss = criterion(inputs, reconstructed)
-
-
-
-
-            # Apply exponential transformation to reconstructed, outputs, and targets
-           # reconstructed, outputs, targets = (
-           #     torch.exp(2 * reconstructed),
-           #     torch.exp(2 * outputs),
-           #     torch.exp(2 * targets),
-           # )
-
-            # Compute VAE loss
-            #total_loss, reconstruction_loss, kl_loss = vae_loss_function(
-            #    reconstructed, inputs, mu, logvar, criterion
-            #)
 
             # Add task-specific loss if applicable
             if epoch >= FREEZE_ENCODER_DECODER_AFTER:
                 task_loss = criterion(outputs, targets)
-                total_loss += task_loss #+ task_loss_c
+                total_loss = rec_loss + task_loss
             else:
                 task_loss = 0.0
-                
+                total_loss = rec_loss
 
+            # Scale loss for accumulation
+            total_loss = total_loss / accumulation_steps
 
-            total_loss += rec_loss # rec_loss_c + 
             # Backward pass
             total_loss.backward()
 
-            # Optimizer step
-            optimizer.step()
+            # Update weights after accumulating gradients
+            if (batch_idx + 1) % accumulation_steps == 0 or (batch_idx + 1) == len(train_loader):
+                optimizer.step()
+                optimizer.zero_grad()  # Reset gradients after the step
 
             # Accumulate the training loss
-            train_loss += total_loss.item()
+            train_loss += total_loss.item() * accumulation_steps  # Scale back the loss
 
         # Calculate average training loss
         avg_train_loss = train_loss / len(train_loader)
         print(
             f"Training Loss: {avg_train_loss:.4f}, "
             f"Reconstruction Loss: {rec_loss:.4f}, "
-            f"Task Loss: {task_loss:.4f}" #KL Loss: {kl_loss:.4f},
+            f"Task Loss: {task_loss:.4f}"  # KL Loss: {kl_loss:.4f},
         )
-
 
         # Save checkpoint and validation sample every 10 epochs
         if epoch % 10 == 0:
             save_checkpoint(model, optimizer, epoch, checkpoint_folder)
-            save_sample_as_numpy(model, val_loader, device, music_out_folder, epoch, prefix = 'tr_')
+            save_sample_as_numpy(model, val_loader, device, music_out_folder, epoch, prefix='tr_')
 
         # Validation
         model.eval()
@@ -120,14 +100,9 @@ def train_and_validate(model,
                 reconstructed, outputs = model(inputs)
                 rec_loss = criterion(inputs, reconstructed)
 
-                # Compute VAE loss
-               # total_loss, reconstruction_loss, kl_loss = vae_loss_function(
-               #     reconstructed, inputs, mu, logvar, criterion
-               # )
-
                 # Add task-specific loss if applicable
                 task_loss = criterion(outputs, targets) if epoch >= FREEZE_ENCODER_DECODER_AFTER else 0.0
-                total_loss += task_loss
+                total_loss = rec_loss + task_loss
 
                 # Accumulate the validation loss
                 val_loss += total_loss.item()
@@ -137,7 +112,7 @@ def train_and_validate(model,
         print(
             f"Validation Loss: {avg_val_loss:.4f}, "
             f"Reconstruction Loss: {rec_loss:.4f}, "
-            f" Task Loss: {task_loss:.4f}" #KL Loss: {kl_loss:.4f},
+            f"Task Loss: {task_loss:.4f}"  # KL Loss: {kl_loss:.4f},
         )
 
         # Save checkpoint and validation sample every 10 epochs
