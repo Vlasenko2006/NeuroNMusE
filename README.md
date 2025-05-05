@@ -2,7 +2,7 @@
 
 ### Overview
 
-This is a compact and efficient neural network designed to generate the next 10 seconds of an audio track based on its first 10 seconds for limited computational resources. The network consists of three main components:
+Meet a compact and efficient neural network designed to generate the next 10 seconds of an audio track based on its first 10 seconds for limited computational resources. If you are a musician struggling to compose your songs, let my neural network be your muse. Play any part (even poorly composed) of your future melody, and let my neural network suggest an alternative rhythm and melody. The network consists of three main components.
 
 1. **Encoder**: Encodes the input waveformat files (numpy analog of an audio file, see **Data Preprocessing**) into a compact representation using convolutional and max-pooling layers.
 2. **Transformer**: Processes the encoded representation using multi-head attention layers to capture temporal patterns in the audio signal and model temporal dependencies.
@@ -16,13 +16,23 @@ The model has two outputs:
 
 ### Example Output
 
-Below is an example of the network's 10-second music output generated from the first 10-seconds of soundtrack "Bablo Pobezhdaet Zlo" created by "Yndervud" music band. Although the input is a low telephonic-quality (12000 kHz sample frequency) sound track, the network excels at capturing rhythmic patterns and reproducing drum and bass guitar sections. However, due to computational constraints (e.g., a single GPU with 15GB of RAM), the number of layers and transformer heads is limited, and the training dataset is relatively small (400 songs). As a result, the network struggles with reproducing complex elements like vocals, percussions and rhythm guitar. 
+Below is an example of the network's 10-second music output generated from the first 10-seconds of soundtrack "Bablo Pobezhdaet Zlo" created by "Yndervud" music band. Although the input is a low telephonic-quality (12000 kHz sample frequency) sound track, the network excels at capturing rhythmic patterns and reproducing drum and bass guitar sections. However, due to computational constraints (e.g., a single GPU with 15GB of RAM), the number of layers and transformer heads is limited, and the training dataset is relatively small (400 songs). As a result, the network struggles with reproducing complex elements like vocals, percussions and rhythm guitar. Here are the examples of neural network input and output .mp3 tracks. 
+
+&nbsp;
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 🎵 **[Download the .mp3 input](
+https://github.com/Vlasenko2006/RockNet/blob/main/input_epoch_120.mp3)** 🎵
+
+&nbsp;
+
+
 
 &nbsp;
 
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 🎵 **[Download the .mp3 output](https://github.com/Vlasenko2006/Lets_Rock/blob/main/output_example.mp3)** 🎵
 
 &nbsp;
+
 
 ### Advantages 
 
@@ -31,11 +41,11 @@ Below is an example of the network's 10-second music output generated from the f
 3. The neural network creates its own rythmic and instrumental pattern in the output which is similar but not the same as in the corresponding target (original continuation of the input.)  
 ---
 
-### Disadvantages
+### Caviats
 
-1. The NN creates a melody in a bass section with drums and bass guitar only (even if the original track has none of these instruments), failing in reproducing complex instruments, guitar riffs and vocal.
+1. The NN creates a melody in a bass section with drums and bass guitar only (even if the original track has none of these instruments), failing to reproduce complex instruments, guitar riffs, and vocals.
 2. Complete failure in reproducing middle-high frequencies - giving a constant tone instead.
-3. The NN was trained on a low quality (telephoic quality) audio files. Low quality in results in low quality out. 
+3. The NN was trained on low-quality (telephonic quality) audio files. Low-quality inputs result in low-quality outputs.
 
 ### Data Preprocessing
 
