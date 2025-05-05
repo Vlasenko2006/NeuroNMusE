@@ -7,9 +7,9 @@ This is a compact neural network designed to generate the next 10 seconds of an 
 
 The network consists of three main components:
 
-1. **Encoder**: Encodes the input audio into a compact representation.
+1. **Encoder**: Encodes the input waveformat files (numpy analog of an audio file, see below) into a compact representation using convolutional and max-pooling layers.
 2. **Transformer**: Processes the encoded representation using attention layers to model temporal dependencies.
-3. **Decoder**: Decodes the processed representation back into audio.
+3. **Decoder**: Decodes the processed representation back into waveformat files.
 
 The model has two outputs:
 - **Output 1**: The original input audio, passed through the encoder and decoder, is reconstructed. This ensures the network's ability to encode and decode the signal effectively without losing important features.
@@ -21,7 +21,7 @@ The model has two outputs:
 
 Below is an example of the network's 10-second music output generated from the first 10-seconds of soundtrack "Bablo Pobezhdaet Zlo" created by Yndervud music band. The network excels at capturing rhythmic patterns and reproducing drum and bass guitar sections. However, due to computational constraints (e.g., a single GPU with 15GB of RAM), the number of layers and transformer heads is limited, and the training dataset is relatively small. As a result, the network struggles with reproducing complex elements like vocals and rhythm guitar. 
 
-🎵 **[Listen to the output](https://github.com/Vlasenko2006/Lets_Rock/blob/main/output_example.mp3)** 🎵
+🎵 **[Download the .mp3 output](https://github.com/Vlasenko2006/Lets_Rock/blob/main/output_example.mp3)** 🎵
 
 ---
 
