@@ -2,10 +2,10 @@
 
 ### Overview
 
-This is a compact neural network designed to generate the next 10 seconds of an audio track based on its first 10 seconds. The network consists of three main components:
+This is a compact and efficient neural network designed to generate the next 10 seconds of an audio track based on its first 10 seconds for limited computational resources. The network consists of three main components:
 
 1. **Encoder**: Encodes the input waveformat files (numpy analog of an audio file, see **Data Preprocessing**) into a compact representation using convolutional and max-pooling layers.
-2. **Transformer**: Processes the encoded representation using attention layers to model temporal dependencies.
+2. **Transformer**: Processes the encoded representation using multi-head attention layers to capture temporal patterns in the audio signal and model temporal dependencies.
 3. **Decoder**: Decodes the processed representation back into waveformat files. Thes outputs are converted back into .mp3 files.
 
 The model has two outputs:
@@ -22,15 +22,6 @@ Below is an example of the network's 10-second music output generated from the f
 
 ---
 
-
-### Key Features
-
-- The encoder and decoder consist of convolutional and max-pooling layers.
-- The transformer leverages multi-head attention layers to capture temporal patterns in the audio signal.
-- The network is designed for compactness and efficiency, making it suitable for limited computational resources.
-
----
-
 ### Data Preprocessing
 
 Before training, the audio data undergoes preprocessing. The original `.mp3` audio file is converted into a **waveform format**, which represents the amplitude of the sound wave over time. This conversion enables the model to work with numerical data suitable for neural network training.
@@ -39,8 +30,7 @@ The waveform format captures:
 - The **loudness** (amplitude) of the audio signal at each time step.
 - Temporal patterns essential for modeling rhythms, beats, and melodies.
 
-Below is a plot of a converted `.mp3` audio file in waveform format. The x-axis represents time, and the y-axis represents the amplitude of the signal.
-
+Below is a plot of a converted `.mp3` audio file in waveform format. The x-axis represents time (microseconds), and the y-axis represents the amplitude of the signal.
 
 ![Sample Output](https://github.com/Vlasenko2006/Lets_Rock/blob/main/waveformat.png)
 
