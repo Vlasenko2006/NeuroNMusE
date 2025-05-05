@@ -41,7 +41,8 @@ The waveform format captures:
 
 Below is a plot of a converted `.mp3` audio file in waveform format. The x-axis represents time, and the y-axis represents the amplitude of the signal.
 
-(*Insert your plot here.*)
+
+![Sample Output](https://github.com/Vlasenko2006/Lets_Rock/blob/main/waveformat.png)
 
 ---
 
