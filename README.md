@@ -2,7 +2,11 @@
 
 ### Overview
 
-Meet a compact and efficient Neural Network for Music Exploration (NeuroNMusE) designed to generate the next 10 seconds of an audio track based on its first 10 seconds for limited computational resources. If you are a musician struggling to compose your songs, let my neural network be your muse. Play any part (even poorly composed) of your future melody, and let my neural network suggest an alternative rhythm and melody. The network consists of three main components.
+Meet **NeuroNMusE**: a compact and efficient Neural Network for Music Exploration, specifically designed to generate the next 10 seconds of an audio track based on its initial 10 seconds — all while operating with minimal computational resources.
+
+Are you a musician seeking inspiration or struggling to compose your next masterpiece? Let NeuroNMusE be your creative muse. Simply play any segment of your melody—even an unfinished or imperfect one—and let the network suggest alternative rhythms and melodies to spark your creativity.
+
+NeuroNMusE is built on three core components, making it both intuitive and powerful for music generation and exploration.
 
 1. **Encoder**: Encodes the input waveformat files (numpy analog of an audio file, see **Data Preprocessing**) into a compact representation using convolutional and max-pooling layers.
 2. **Transformer**: Processes the encoded representation using multi-head attention layers to capture temporal patterns in the audio signal and model temporal dependencies.
