@@ -42,14 +42,16 @@ https://github.com/Vlasenko2006/RockNet/blob/main/input_epoch_120.mp3)** 🎵
 
 1. The neural network is simple and trainable within one hour (120 epochs is pretty enough).
 2. The neural network correctly captures the mood and style of the song distinguishing reggae, rock, salsa, etc. rythms in the input without explicit specifications.
-3. The neural network creates its own rythmic and instrumental pattern in the output which is similar but not the same as in the corresponding target (original continuation of the input.)  
+3. The neural network creates its own rythmic and instrumental pattern in the output which is similar but not the same as in the corresponding target (original continuation of the input.)
+4. Wave format music representation results in memory efficiency.
 ---
 
 ### Caviats
 
-1. The NN creates a melody in a bass section with drums and bass guitar only (even if the original track has none of these instruments), failing to reproduce complex instruments, guitar riffs, and vocals.
-2. Complete failure in reproducing middle-high frequencies - giving a constant tone instead.
-3. The NN was trained on low-quality (telephonic quality) audio files. Low-quality inputs result in low-quality outputs.
+1. Price for efficency in memory usage (Advantage No. 4) is the output quality. 
+2. The NN creates a melody in a bass section with drums and bass guitar only (even if the original track has none of these instruments), failing to reproduce complex instruments, guitar riffs, and vocals.
+3. Complete failure in reproducing middle-high frequencies - giving a constant telephone-like tone on the background.
+4. The NN was trained on low-quality (telephonic quality) audio files. Low-quality inputs result in low-quality outputs.
 
 ### Data Preprocessing
 
@@ -65,6 +67,9 @@ Below is a plot of a converted `.mp3` audio file in waveform format (orange curv
 
 ---
 
+### Wave Format or (Mel)Spectrogram?
+
+Indeed, spectrogrgrams give a 2D representation of audio signal and they better picture its pecularities than 1D Wave format. Still, extra dimention gives you extra memory costs and complicates the problem of music reproduction (dimension curse).   
 
 ### Training Process
 
